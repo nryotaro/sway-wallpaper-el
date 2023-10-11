@@ -40,5 +40,32 @@ The function is called with the image and the output."
 	     (functionp sway-wallpaper-set-image-callback))
 	(apply sway-wallpaper-set-image-callback (list image-path output)))))
 
+					;image-dired-thumbnail-mode-hook
+
+(defcustom sway-wallpaper-dirs '()
+  "A list of directories that contains images."
+  :type '(repeat directory)
+  :group 'sway-wallpaper)
+
+(defun sway-wallpaper-preview ()
+  "Open a directory with `image-dired`."
+  (interactive)
+  (image-dired (completing-read "Directory: " sway-wallpaper-dirs))
+  (revert-buffer))
+
+(defun sway-wallpaper--bind-key
+    ()
+  "Bind a key to sway-wallpaper-set-background-image."
+  (bind-key "b" 'sway-wallpaper-set-background-image image-dired-thumbnail-mode-map))
+
+;;;###autoload
+(define-minor-mode sway-wallpaper-mode
+  "This minor mode provides features to display background images on a sway output."
+  :global t
+  :group 'sway-wallpaper
+  (if sway-wallpaper-mode
+      (add-hook 'image-dired-thumbnail-mode-hook 'sway-wallpaper--bind-key)
+    (remove-hook 'image-dired-thumbnail-mode-hook 'sway-wallpaper--bind-key)))
+
 (provide 'sway-wallpaper)
 ;;; sway-wallpaper.el ends here
