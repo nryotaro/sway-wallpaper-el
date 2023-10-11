@@ -40,8 +40,6 @@ The function is called with the image and the output."
 	     (functionp sway-wallpaper-set-image-callback))
 	(apply sway-wallpaper-set-image-callback (list image-path output)))))
 
-					;image-dired-thumbnail-mode-hook
-
 (defcustom sway-wallpaper-dirs '()
   "A list of directories that contains images."
   :type '(repeat directory)
