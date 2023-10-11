@@ -36,11 +36,9 @@ The function is called with the image and the output."
 		     (car outputs)
 		   (completing-read "Output: " outputs)))
 	 (result (sway-wallpaper--display-image output image-path)))
-    (message (string (eq result 0)))
-    (message (string (fboundp 'sway-wallpaper-set-image-callback)))
-    (message (string (and (eq result 0) (fboundp 'sway-wallpaper-set-image-callback)) "doge"))
-    (if (and (eq result 0) (fboundp 'sway-wallpaper-set-image-callback))
-	(sway-wallpaper-set-image-callback image-path output))))
+    (if (and (eq result 0)
+	     (functionp sway-wallpaper-set-image-callback))
+	(apply sway-wallpaper-set-image-callback (list image-path output)))))
 
 (provide 'sway-wallpaper)
 ;;; sway-wallpaper.el ends here
