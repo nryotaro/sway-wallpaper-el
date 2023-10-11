@@ -23,15 +23,24 @@
    nil
    t))
 
+(defcustom sway-wallpaper-set-image-callback nil
+  "If a image was set successfully, the function is called.
+The function is called with the image and the output."
+  :type 'function
+  :group 'sway-wallpaper)
+
 (defun sway-wallpaper-set-background-image
     ()
   "Display a background image on an outbput."
   (interactive)
-  (let ((image-path (image-dired-original-file-name))
-	(outputs (sway-wallpaper--detect-outputs)))
-    (if (eq (length outputs) 1)
-	(sway-wallpaper--display-image (car outputs) image-path)
-      (sway-wallpaper--display-image (completing-read "Output: " outputs) image-path))))
+  (let* ((image-path (image-dired-original-file-name))
+	 (outputs (sway-wallpaper--detect-outputs))
+	 (output (if (eq (length outputs) 1)
+		     (car outputs)
+		   (completing-read "Output: " outputs)))
+	 (result (sway-wallpaper--display-image output image-path)))
+    (if (and (eq result 0) (fboundp 'sway-wallpaper-set-image-callback))
+	(sway-wallpaper-set-image-callback image-path output))))
 
 (provide 'sway-wallpaper)
 ;;; sway-wallpaper.el ends here
