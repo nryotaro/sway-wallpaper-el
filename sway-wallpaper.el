@@ -37,9 +37,10 @@ The function is called with the image and the output."
 	 (output (if (eq (length outputs) 1)
 		     (car outputs)
 		   (completing-read "Output: " outputs)))
-	 (result (sway-wallpaper--display-image output image-path)))
-    (message "result: %s" result)
-    (message (concat "cond: " (string (eq result 0))))
+	 (result (sway-wallpaper--display-image output image-path))
+	 (a (setq doge result))
+	 (b (setq doge2 (concat "cond: " (string (eq result 0))))))
+
     (if (and (eq result 0) (fboundp 'sway-wallpaper-set-image-callback))
 	(sway-wallpaper-set-image-callback image-path output))))
 
