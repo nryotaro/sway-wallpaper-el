@@ -18,9 +18,7 @@
     (output image-path)
   "Display a file at IMAGE-PATH on an OUTPUT."
   (call-process-shell-command
-   (concat "swaymsg output " output " bg '" (shell-quote-argument image-path) "' fill")
-   nil
-   t))
+   (concat "swaymsg output " output " bg '" (shell-quote-argument image-path) "' fill")))
 
 (defcustom sway-wallpaper-set-image-callback nil
   "If a image was set successfully, the function is called.
@@ -37,10 +35,10 @@ The function is called with the image and the output."
 	 (output (if (eq (length outputs) 1)
 		     (car outputs)
 		   (completing-read "Output: " outputs)))
-	 (result (sway-wallpaper--display-image output image-path))
-	 (a (setq doge result))
-	 (b (setq doge2 (concat "cond: " (string (eq result 0))))))
-
+	 (result (sway-wallpaper--display-image output image-path)))
+    (message (string (eq result 0)))
+    (message (string (fboundp 'sway-wallpaper-set-image-callback)))
+    (message (string (and (eq result 0) (fboundp 'sway-wallpaper-set-image-callback)) "doge"))
     (if (and (eq result 0) (fboundp 'sway-wallpaper-set-image-callback))
 	(sway-wallpaper-set-image-callback image-path output))))
 
