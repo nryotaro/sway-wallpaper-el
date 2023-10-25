@@ -45,7 +45,7 @@ The function is called with the image and the output."
   :type '(repeat directory)
   :group 'sway-wallpaper)
 
-(defun sway-wallpaper-preview ()
+(defun sway-wallpaper ()
   "Open a directory with `image-dired`."
   (interactive)
   (image-dired (completing-read "Directory: " sway-wallpaper-dirs))
